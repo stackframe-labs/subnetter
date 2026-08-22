@@ -1,7 +1,7 @@
 # Subnetter
 
 A fast, client-side IPv4/IPv6 subnet calculator, VLSM planner, and CIDR/mask
-converter. Plain HTML, CSS, and vanilla JavaScript — no framework, no build
+converter. Plain HTML, CSS, and vanilla JavaScript. No framework, no build
 step, no server. Every calculation runs locally in the browser.
 
 ## Features
