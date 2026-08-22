@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subnetter &mdash; IPv4/IPv6 Subnet Calculator &amp; VLSM Planner</title>
+<meta name="description" content="A free, client-side IPv4 subnet calculator, VLSM planner, IPv6 subnet calculator, and CIDR/mask converter.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <h1><span class="logo-mark">/</span>Subnetter</h1>
+    <p class="tagline">IPv4 &amp; IPv6 subnet calculator, VLSM planner, and CIDR/mask converter &mdash; all in your browser, no data leaves your machine.</p>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Subnetting tools">
+  <div class="wrap tabs-inner">
+    <button class="tab-btn active" data-tab="ipv4" role="tab" aria-selected="true">IPv4 Calculator</button>
+    <button class="tab-btn" data-tab="vlsm" role="tab" aria-selected="false">VLSM Planner</button>
+    <button class="tab-btn" data-tab="ipv6" role="tab" aria-selected="false">IPv6 Calculator</button>
+    <button class="tab-btn" data-tab="converter" role="tab" aria-selected="false">CIDR / Mask Converter</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ================= IPv4 CALCULATOR ================= -->
+  <section id="panel-ipv4" class="panel active" role="tabpanel">
+    <div class="card">
+      <h2>IPv4 Subnet Calculator</h2>
+      <p class="hint">Enter an IPv4 address and either a CIDR prefix (e.g. <code>24</code>) or a dotted subnet mask (e.g. <code>255.255.255.0</code>).</p>
+
+      <form id="ipv4-form" class="calc-form" autocomplete="off">
+        <div class="field">
+          <label for="ipv4-address">IP Address</label>
+          <input type="text" id="ipv4-address" placeholder="192.168.1.10" value="192.168.1.10">
+        </div>
+        <div class="field">
+          <label for="ipv4-prefix">CIDR Prefix or Subnet Mask</label>
+          <input type="text" id="ipv4-prefix" placeholder="24 or 255.255.255.0" value="24">
+        </div>
+        <button type="submit" class="btn-primary">Calculate</button>
+      </form>
+
+      <div id="ipv4-error" class="error-box" hidden></div>
+
+      <div id="ipv4-results" class="results-grid" hidden></div>
+    </div>
+  </section>
+
+  <!-- ================= VLSM PLANNER ================= -->
+  <section id="panel-vlsm" class="panel" role="tabpanel">
+    <div class="card">
+      <h2>VLSM Planner</h2>
+      <p class="hint">Enter a base network in CIDR notation and a comma-separated list of required host counts per subnet. Subnets are allocated largest-first for a correct, non-overlapping fit.</p>
+
+      <form id="vlsm-form" class="calc-form" autocomplete="off">
+        <div class="field">
+          <label for="vlsm-base">Base Network (CIDR)</label>
+          <input type="text" id="vlsm-base" placeholder="192.168.1.0/24" value="192.168.1.0/24">
+        </div>
+        <div class="field field-wide">
+          <label for="vlsm-hosts">Required Hosts per Subnet</label>
+          <input type="text" id="vlsm-hosts" placeholder="50, 20, 10, 5" value="50, 20, 10, 5">
+        </div>
+        <button type="submit" class="btn-primary">Plan Subnets</button>
+      </form>
+
+      <div id="vlsm-error" class="error-box" hidden></div>
+
+      <div id="vlsm-summary" class="summary-box" hidden></div>
+
+      <div class="table-scroll">
+        <table id="vlsm-table" class="results-table" hidden>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Hosts Needed</th>
+              <th>Subnet (CIDR)</th>
+              <th>Mask</th>
+              <th>Network</th>
+              <th>Broadcast</th>
+              <th>Usable Range</th>
+              <th>Usable Hosts</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= IPv6 CALCULATOR ================= -->
+  <section id="panel-ipv6" class="panel" role="tabpanel">
+    <div class="card">
+      <h2>IPv6 Subnet Calculator</h2>
+      <p class="hint">Enter an IPv6 address (compressed or expanded) and a prefix length (0&ndash;128).</p>
+
+      <form id="ipv6-form" class="calc-form" autocomplete="off">
+        <div class="field field-wide">
+          <label for="ipv6-address">IPv6 Address</label>
+          <input type="text" id="ipv6-address" placeholder="2001:db8:85a3::8a2e:370:7334" value="2001:db8:85a3::8a2e:370:7334">
+        </div>
+        <div class="field">
+          <label for="ipv6-prefix">Prefix Length</label>
+          <input type="text" id="ipv6-prefix" placeholder="64" value="64">
+        </div>
+        <button type="submit" class="btn-primary">Calculate</button>
+      </form>
+
+      <div id="ipv6-error" class="error-box" hidden></div>
+
+      <div id="ipv6-results" class="results-grid" hidden></div>
+    </div>
+  </section>
+
+  <!-- ================= CIDR / MASK CONVERTER ================= -->
+  <section id="panel-converter" class="panel" role="tabpanel">
+    <div class="card">
+      <h2>CIDR &harr; Subnet Mask Converter</h2>
+      <p class="hint">Type into either field &mdash; the other updates automatically.</p>
+
+      <div class="converter-grid">
+        <div class="field">
+          <label for="conv-cidr">CIDR Prefix (0&ndash;32)</label>
+          <input type="text" id="conv-cidr" placeholder="24" value="24">
+        </div>
+        <div class="converter-arrow" aria-hidden="true">&harr;</div>
+        <div class="field">
+          <label for="conv-mask">Subnet Mask</label>
+          <input type="text" id="conv-mask" placeholder="255.255.255.0" value="255.255.255.0">
+        </div>
+      </div>
+
+      <div id="conv-error" class="error-box" hidden></div>
+      <div id="conv-wildcard" class="hint" style="margin-top:1rem;"></div>
+
+      <h3 class="ref-title">Quick Reference</h3>
+      <div class="table-scroll">
+        <table class="results-table" id="conv-table">
+          <thead>
+            <tr><th>CIDR</th><th>Subnet Mask</th><th>Wildcard</th><th>Usable Hosts</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Subnetter &mdash; a portfolio project by Hanaan Mir. All calculations run locally in your browser; nothing is sent anywhere.</p>
+  </div>
+</footer>
+
+<script src="subnet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

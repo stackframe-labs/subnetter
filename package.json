@@ -1,0 +1,11 @@
+{
+  "name": "subnetter",
+  "version": "1.0.0",
+  "description": "A static, client-side IPv4/IPv6 subnet calculator, VLSM planner, and CIDR/mask converter.",
+  "private": true,
+  "main": "subnet.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "license": "MIT"
+}
