@@ -1,6 +1,7 @@
 # Subnetter
 
 [![Portfolio Projects](https://img.shields.io/badge/Portfolio-Projects-2088FF?style=flat-square&logo=github&logoColor=white)](https://github.com/users/hanaanmir17/projects/2)
+[![CI](https://github.com/stackframe-labs/subnetter/actions/workflows/ci.yml/badge.svg)](https://github.com/stackframe-labs/subnetter/actions/workflows/ci.yml)
 
 A fast, client-side IPv4/IPv6 subnet calculator, VLSM planner, and CIDR/mask
 converter. Plain HTML, CSS, and vanilla JavaScript. No framework, no build
